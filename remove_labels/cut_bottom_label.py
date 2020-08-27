@@ -1,5 +1,6 @@
 import os
 import argparse
+import datetime
 from PIL import Image
 
 output_dir = 'cropped_images'
@@ -10,7 +11,7 @@ def walk_through_files(path, file_extension=('.jpg', '.jpeg')):
          if filename.lower().endswith(file_extension) and not dirpath.startswith(f'{path}/{output_dir}'):
             yield os.path.join(dirpath, filename)
     
-def main(path):
+def main(path, ratio):
     dir = output_dir
     try:
         os.mkdir(dir)
@@ -18,20 +19,25 @@ def main(path):
         print ("%s already created" % dir)
     else:
         print ("Successfully created %s " % dir)
-    for key, fname in enumerate(walk_through_files(path)):
-        print(str(key) + '.jpg')
+    for fname in walk_through_files(path):
+        print(str(datetime.datetime.now().date()) + str(datetime.datetime.now().time()) + '.jpg')
         img = Image.open(fname)
-        hight = img.size[1] * 0.9
+        hight = img.size[1] * ratio
         width = 640 * hight / 480
         start_width = (img.size[0] - width)/2
         end_width = start_width + width
         box = (start_width,0,end_width,hight)
         img = img.crop(box)
-        img.save(dir + '/' + str(key) + '.jpg', 'JPEG')
+        img.save(dir + '/' + str(datetime.datetime.now().date()) + str(datetime.datetime.now().time()) + '.jpg', 'JPEG')
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--path_to_images", required = True, help="path to directory with images")
+    ap.add_argument("-r", "--ratio", default=0.9, help="FLOAT hight aspect ratio. Ex: 0.9")
     args = vars(ap.parse_args())
     path = args["path_to_images"]
-    main(path)
+    ratio = float(args["ratio"])
+    print(type(ratio))
+    print(type(0.9))
+    print(ratio)
+    main(path, ratio)

@@ -1,5 +1,6 @@
 import os
 import argparse
+import datetime
 from PIL import Image
 
 output_dir = 'resized_images'
@@ -18,11 +19,11 @@ def main(path):
         print ("%s already created" % dir)
     else:
         print ("Successfully created %s " % dir)
-    for key, fname in enumerate(walk_through_files(path)):
-        print(str(key) + '.jpg')
+    for fname in walk_through_files(path):
+        print(str(datetime.datetime.now().date()) + str(datetime.datetime.now().time()) + '.jpg')
         img = Image.open(fname)
         img = img.resize((640,480), Image.ANTIALIAS)
-        img.save(dir + '/' + str(key) + '.jpg', 'JPEG')
+        img.save(dir + '/' + str(datetime.datetime.now().date()) + str(datetime.datetime.now().time()) + '.jpg', 'JPEG')
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
