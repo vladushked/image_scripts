@@ -2,7 +2,7 @@ import os
 import argparse
 from PIL import Image
 
-output_dir = 'dir_with_images'
+output_dir = 'resized_images'
 
 def walk_through_files(path, file_extension=('.jpg', '.jpeg')):
    for (dirpath, dirnames, filenames) in os.walk(path):
