@@ -26,7 +26,7 @@ def main(path, ratio):
         width = 640 * hight / 480
         start_width = (img.size[0] - width)/2
         end_width = start_width + width
-        box = (start_width,0,end_width,hight)
+        box = (start_width,img.size[1] - hight,end_width,img.size[1])
         img = img.crop(box)
         img.save(dir + '/' + str(datetime.datetime.now().date()) + str(datetime.datetime.now().time()) + '.jpg', 'JPEG')
 
