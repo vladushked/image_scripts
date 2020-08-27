@@ -24,7 +24,6 @@ def main(path):
         img = img.resize((640,480), Image.ANTIALIAS)
         img.save(dir + '/' + str(key) + '.jpg', 'JPEG')
 
-# object_detection_docker/test_images
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--path_to_images", required = True, help="path to directory with images")
