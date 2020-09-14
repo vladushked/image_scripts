@@ -48,7 +48,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--path_to_images", required=True,
                     help="path to directory with images")
-    ap.add_argument("-l", "--screened_poisson_L", default=0.0003,
+    ap.add_argument("-l", "--screened_poisson_L", default=0.0003, type=float, 
                     help="the tradeoff parameter of the functional in (0, 2]")
     args = vars(ap.parse_args())
     path = args["path_to_images"]
