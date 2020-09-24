@@ -28,4 +28,4 @@ if __name__ == "__main__":
     domain_name = args["domain_name"]
     output_json = args["output_json_file"]
 
-    main(path, domain_name)
+    main(path, domain_name, output_json)

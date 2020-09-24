@@ -9,8 +9,12 @@
 
 import sys
 import cv2 as cv
+import datetime
+import os
 from argparse import ArgumentParser
 from argparse import RawTextHelpFormatter
+
+output_dir = 'frames'
 
 
 def main(input_video, framerate, output_name, image_extension):
@@ -18,6 +22,14 @@ def main(input_video, framerate, output_name, image_extension):
     print("Video is opened: %s" % (cap.isOpened()))
     i = 0
     img_counter = 0
+
+    try:
+        os.mkdir(output_dir)
+    except OSError:
+        print("%s already created" % output_dir)
+    else:
+        print("Successfully created %s " % output_dir)
+
     while cap.isOpened():
         ret, frame = cap.read()
         # if frame is read correctly ret is True
@@ -29,8 +41,8 @@ def main(input_video, framerate, output_name, image_extension):
             break
         if i == int(framerate):
             print('%s%d.%s' % (output_name, img_counter, image_extension))
-            cv.imwrite('%s%d.%s' %
-                       (output_name, img_counter, image_extension), frame)
+            cv.imwrite('%s/%s%d.%s' %
+                       (output_dir, output_name, img_counter, image_extension), frame)
             img_counter += 1
             i = 0
         else:
@@ -40,6 +52,7 @@ def main(input_video, framerate, output_name, image_extension):
 
 
 if __name__ == "__main__":
+    default_name = str(datetime.datetime.now().date()) + '_'
     # construct the argument parser and parse the arguments
     ap = ArgumentParser(
         description='This script transforms your video into number of pictures. Pictures from your video produces every second\n'
@@ -51,9 +64,10 @@ if __name__ == "__main__":
                     help="path to video")
     ap.add_argument("-f", "--framerate", type=int, default=12,
                     help="saving framerate")
-    ap.add_argument("-o", "--output_name", required=True,
+    ap.add_argument("-o", "--output_name", default=default_name,
                     help="output image names start with this string")
     ap.add_argument("-e", "--image_extension", default='jpg',
-                    help="percentage of evaluation data")
+                    help="image extension")
     args = vars(ap.parse_args())
-    main(args["input_video"], args["framerate"], args["output_name"], args["image_extension"])
+    main(args["input_video"], args["framerate"],
+         args["output_name"], args["image_extension"])

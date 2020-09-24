@@ -3,23 +3,15 @@ import argparse
 import datetime
 from PIL import Image
 
-output_dir = 'enhanced_images'
-
 
 def walk_through_files(path, file_extension=('.jpg', '.jpeg')):
     for (dirpath, dirnames, filenames) in os.walk(path):
         for filename in filenames:
-            if filename.lower().endswith(file_extension) and not dirpath.startswith(f"{path}/{output_dir}"):
+            if filename.lower().endswith(file_extension):
                 yield filename
 
 
 def main(images_to_replace, path_to_fine_images):
-    try:
-        os.mkdir(output_dir)
-    except OSError:
-        print(f"{output_dir}/ already created")
-    else:
-        print(f"Successfully created {output_dir}/")
     for filename in walk_through_files(images_to_replace):
         img = Image.open(os.path.join(path_to_fine_images, filename))
         print(os.path.join(images_to_replace, filename))
